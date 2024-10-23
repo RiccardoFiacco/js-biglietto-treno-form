@@ -11,7 +11,8 @@ console.log(form)
 form.addEventListener("submit", function(event){
     //blocco il normale funzionamento dell'invio del form
     event.preventDefault();
-    
+    //memorizzo nome e cognoem
+    let info = document.getElementById("personal_info").value;
     //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero
     let kmToTravel = document.getElementById("km").value;
     let age = document.getElementById("age").value;
@@ -19,6 +20,12 @@ form.addEventListener("submit", function(event){
     //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
     const price = priceCalc(kmToTravel, age);
     console.log(price);
+    
+    //azzero tutti i valori
+    document.getElementById("personal_info").value = '';
+    document.getElementById("km").value='';
+    document.getElementById("age").value= '';
+
 })
 
 function priceCalc(km, age){
