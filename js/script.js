@@ -12,6 +12,10 @@ form.addEventListener("submit", function(event){
     //blocco il normale funzionamento dell'invio del form
     event.preventDefault();
     
+    //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero
+    let numeroKm = document.getElementById("km").value;
+    let eta = document.getElementById("age").value;
+    console.log(numeroKm, eta);
     
 })
 
