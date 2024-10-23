@@ -22,7 +22,7 @@ function priceCalc(km, age){
 function generateHtml(info, price, age){
     ticket.innerHTML = '';
     ticket.innerHTML +=
-    `<div class="card mb-3" style="max-width: 540px;">
+    `<div class="card mb-3 mt-5 max-w-540px margin-0-auto" >
         <div class="row g-0">
             <div class="col-md-4">
             <img src="./img/image.png" class="img-fluid rounded-start" alt="...">
