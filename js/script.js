@@ -6,9 +6,13 @@ const prezzoPerKm = 0.21;
 
 //salvo dentro ad una variabile l'elemento form
 const form = document.getElementById("form");
+console.log(form)
 //all'invio del form, facciamo partire la funzione
 form.addEventListener("submit", function(event){
-
+    //blocco il normale funzionamento dell'invio del form
+    event.preventDefault();
+    
+    
 })
 
 
