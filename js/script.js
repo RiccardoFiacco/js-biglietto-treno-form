@@ -16,6 +16,7 @@ form.addEventListener("submit", function(event){
     let kmToTravel = document.getElementById("km").value;
     let age = document.getElementById("age").value;
     console.log(kmToTravel, age);
+    //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
     const price = priceCalc(kmToTravel, age);
     console.log(price);
 })
