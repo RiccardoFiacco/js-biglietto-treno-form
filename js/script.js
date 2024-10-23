@@ -20,7 +20,7 @@ function priceCalc(km, age){
     return finalPrice.toFixed(2);
 }
 function generateHtml(info, price, age){
-
+    ticket.innerHTML = '';
     ticket.innerHTML +=
     `<div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
@@ -31,7 +31,7 @@ function generateHtml(info, price, age){
             <div class="card-body">
                 <h5 class="card-title">Nome Possessore: ${info}</h5>
                 <p class="card-text"><small class="text-body-secondary">Eta del possessore: ${age}</small></p>
-                <p class="card-text">Prezzo biglietto: ${price}</p>
+                <p class="card-text">Prezzo biglietto: ${price}&euro;</p>
             </div>
             </div>
         </div>
@@ -62,7 +62,7 @@ form.addEventListener("submit", function(event){
     const price = priceCalc(kmToTravel, age);
     console.log(price);
 
-    generateHtml(info, kmToTravel, age);
+    generateHtml(info, price, age);
 
     //azzero tutti i valori
     document.getElementById("personal_info").value = '';
