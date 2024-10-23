@@ -36,9 +36,16 @@ function generateHtml(info, price, age){
             </div>
         </div>
       </div>`;
-
-
 };
+
+function isString(s){
+    if(typeof s !== 'string'){
+        return false;
+    }else{
+        return true;
+    }
+}
+
 //dichiare costante percentuale sconto u-18, sconto o-65 e con il prezzo per km
 const discountPercentageU18 = 20;
 const discountPercentageO65 = 40;
@@ -54,20 +61,38 @@ form.addEventListener("submit", function(event){
     event.preventDefault();
     //memorizzo nome e cognoem
     let info = document.getElementById("personal_info").value;
-    //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero
-    let kmToTravel = document.getElementById("km").value;
-    let age = document.getElementById("age").value;
-    console.log(kmToTravel, age);
-    //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
-    const price = priceCalc(kmToTravel, age);
-    console.log(price);
+    //se è una stringa andiamo avanti con i controlli
+    if(isString(info)){
+    //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero e la selezione della select
+        let kmToTravel = parseInt(document.getElementById("km").value);
+        if(!isNaN(kmToTravel)){
+            let age = document.getElementById("age").value;
+            if(!isNaN(age)){
+                let select = document.getElementById("ageSel").value;
+                console.log(kmToTravel, age, select);
+                   
+                //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
+                const price = priceCalc(kmToTravel, age);
+                console.log(price);
 
-    generateHtml(info, price, age);
+                generateHtml(info, price, age);
 
-    //azzero tutti i valori
-    document.getElementById("personal_info").value = '';
-    document.getElementById("km").value='';
-    document.getElementById("age").value= '';
-
+                //azzero tutti i valori
+                document.getElementById("personal_info").value = '';
+                document.getElementById("km").value='';
+                document.getElementById("age").value= '';
+            }else{
+                ticket.innerHTML = '';
+                ticket.innerHTML += "l'eta inserita non è un numero"
+            }                    
+        }else{
+            ticket.innerHTML = '';
+            ticket.innerHTML += "i km inseriti non sono numeri"
+        }    
+    }else{//mandiamo un messaggio di errore
+        ticket.innerHTML = '';
+        ticket.innerHTML += "nome e cognome non sono stringhe"
+    }
+    
 })
 
