@@ -71,7 +71,7 @@ form.addEventListener("submit", function(event){
     if(isString(info)){
     //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero e la selezione della select
         let kmToTravel = parseInt(document.getElementById("km").value);
-        if(!isNaN(kmToTravel)){
+        if(!isNaN(kmToTravel)&& kmToTravel>0){
             let age = parseInt(document.getElementById("age").value);
             if(!isNaN(age) && age>0 && age < 110){
                 let select = document.getElementById("ageSel").value; 
@@ -88,7 +88,7 @@ form.addEventListener("submit", function(event){
                 msgError("l'eta inserita non è un numero o non è un eta fattibile")
             }                    
         }else{
-            msgError("i km inseriti non sono numeri")        
+            msgError("i km inseriti non sono numeri o non è un numero fattibile")        
         }    
     }else{//mandiamo un messaggio di errore
         msgError("nome e cognome non sono stringhe")
