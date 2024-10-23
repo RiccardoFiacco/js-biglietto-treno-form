@@ -3,6 +3,15 @@ const percentualeScontoU18 = 20;
 const percentualeScontoO65 = 40;
 const prezzoPerKm = 0.21;
 
+
+//salvo dentro ad una variabile l'elemento form
+const form = document.getElementById("form");
+//all'invio del form, facciamo partire la funzione
+form.addEventListener("submit", function(event){
+
+})
+
+
 //calcolare prezzo base biglietto: km * costante 0,21
 const prezzoBase = numeroKm * prezzoPerKm;
 //inizzializzo la variabile sconto
