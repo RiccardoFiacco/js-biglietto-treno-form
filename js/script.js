@@ -19,7 +19,26 @@ function priceCalc(km, age){
     //restituisco indietro il valore del prezzo finale
     return finalPrice.toFixed(2);
 }
+function generateHtml(info, price, age){
 
+    ticket.innerHTML +=
+    `<div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+            <img src="./img/image.png" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Nome Possessore: ${info}</h5>
+                <p class="card-text"><small class="text-body-secondary">Eta del possessore: ${age}</small></p>
+                <p class="card-text">Prezzo biglietto: ${price}</p>
+            </div>
+            </div>
+        </div>
+      </div>`;
+
+
+};
 //dichiare costante percentuale sconto u-18, sconto o-65 e con il prezzo per km
 const discountPercentageU18 = 20;
 const discountPercentageO65 = 40;
@@ -42,7 +61,8 @@ form.addEventListener("submit", function(event){
     //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
     const price = priceCalc(kmToTravel, age);
     console.log(price);
-    generateHtml();
+
+    generateHtml(info, kmToTravel, age);
 
     //azzero tutti i valori
     document.getElementById("personal_info").value = '';
