@@ -66,7 +66,7 @@ form.addEventListener("submit", function(event){
     //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero e la selezione della select
         let kmToTravel = parseInt(document.getElementById("km").value);
         if(!isNaN(kmToTravel)){
-            let age = document.getElementById("age").value;
+            let age = parseInt(document.getElementById("age").value);
             if(!isNaN(age)){
                 let select = document.getElementById("ageSel").value;
                 console.log(kmToTravel, age, select);
