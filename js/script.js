@@ -1,4 +1,4 @@
-function priceCalc(km, age){
+function priceCalc(km, range){
     //calcolare prezzo base biglietto: km * costante 0,21
     const basePrice = km * prezzoPerKm;
 
@@ -9,9 +9,9 @@ function priceCalc(km, age){
         // sconto = prezzo * percentuale u-18 / 100
     //ALTRIMENTI se eta > 65 
         // sconto = prezzo * percentuale o-65 / 100
-    if(age<18){
+    if(range=="under18"){
         discount = basePrice * discountPercentageU18 / 100;
-    }else if(age > 65){
+    }else if(range=="over65"){
         discount = basePrice * discountPercentageO65 / 100;
     }
     //calcolo il prezzo finale 
@@ -45,7 +45,13 @@ function isString(s){
         return true;
     }
 }
-
+function cleaning(value){
+    document.getElementById(value).value = '';
+}
+function msgError(str){
+    ticket.innerHTML = '';
+    ticket.innerHTML += str;
+}
 //dichiare costante percentuale sconto u-18, sconto o-65 e con il prezzo per km
 const discountPercentageU18 = 20;
 const discountPercentageO65 = 40;
@@ -67,32 +73,25 @@ form.addEventListener("submit", function(event){
         let kmToTravel = parseInt(document.getElementById("km").value);
         if(!isNaN(kmToTravel)){
             let age = parseInt(document.getElementById("age").value);
-            if(!isNaN(age)){
-                let select = document.getElementById("ageSel").value;
-                console.log(kmToTravel, age, select);
-                   
+            if(!isNaN(age) && age>0 && age < 110){
+                let select = document.getElementById("ageSel").value; 
+                console.log(select);    
                 //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
-                const price = priceCalc(kmToTravel, age);
-                console.log(price);
-
+                const price = priceCalc(kmToTravel, select);
+                //genero tramite una funzione la card
                 generateHtml(info, price, age);
-
                 //azzero tutti i valori
-                document.getElementById("personal_info").value = '';
-                document.getElementById("km").value='';
-                document.getElementById("age").value= '';
+                cleaning("personal_info");
+                cleaning("km");
+                cleaning("age");
             }else{
-                ticket.innerHTML = '';
-                ticket.innerHTML += "l'eta inserita non è un numero"
+                msgError("l'eta inserita non è un numero o non è un eta fattibile")
             }                    
         }else{
-            ticket.innerHTML = '';
-            ticket.innerHTML += "i km inseriti non sono numeri"
+            msgError("i km inseriti non sono numeri")        
         }    
     }else{//mandiamo un messaggio di errore
-        ticket.innerHTML = '';
-        ticket.innerHTML += "nome e cognome non sono stringhe"
-    }
-    
+        msgError("nome e cognome non sono stringhe")
+    }  
 })
 
