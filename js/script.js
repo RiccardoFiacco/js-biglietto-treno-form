@@ -61,6 +61,7 @@ const prezzoPerKm = 0.21;
 //salvo dentro ad una variabile l'elemento form
 const form = document.getElementById("form");
 console.log(form)
+const cleanButton = document.getElementById("cleanButton");
 //all'invio del form, facciamo partire la funzione
 form.addEventListener("submit", function(event){
     //blocco il normale funzionamento dell'invio del form
@@ -95,3 +96,8 @@ form.addEventListener("submit", function(event){
     }  
 })
 
+cleanButton.addEventListener("click", function(event){
+    event.preventDefault();
+    ticket.innerHTML = '';
+    console.log("aaaaaaaaaaaaaaaaaaaaaa");
+})
