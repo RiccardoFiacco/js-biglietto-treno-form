@@ -19,7 +19,7 @@ function priceCalc(km, range){
     //restituisco indietro il valore del prezzo finale
     return finalPrice.toFixed(2);
 }
-function generateHtml(info, price, age){
+function generateHtml(info, price, age, start, end){
     ticket.innerHTML = '';
     ticket.innerHTML +=
     `<div class="card mb-3 mt-5 max-w-540px margin-0-auto" >
@@ -29,9 +29,10 @@ function generateHtml(info, price, age){
             </div>
             <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title">Nome Possessore: ${info}</h5>
-                <p class="card-text"><small class="text-body-secondary">Eta del possessore: ${age}</small></p>
-                <p class="card-text">Prezzo biglietto: ${price}&euro;</p>
+                <h5 class="card-title"><b>Nome Possessore</b>: ${info}</h5>
+                <p class="card-text"><small class="text-body-secondary"><b>Eta del possessore</b>: ${age}</small></p>
+                <p class="card-text"><b>Prezzo biglietto</b>: ${price}&euro;</p>
+                <p><b>Partenza</b>: ${start} <b>Destinazione</b>: ${end}</p>
             </div>
             </div>
         </div>
@@ -76,11 +77,13 @@ form.addEventListener("submit", function(event){
             let age = parseInt(document.getElementById("age").value);
             if(!isNaN(age) && age>0 && age < 110){
                 let select = document.getElementById("ageSel").value; 
-                console.log(select);    
+                console.log(select);
+                let destination = document.getElementById("end").value;
+                let start = document.getElementById("start").value;
                 //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
                 const price = priceCalc(kmToTravel, select);
                 //genero tramite una funzione la card
-                generateHtml(info, price, age);
+                generateHtml(info, price, age, start, destination);
                 //azzero tutti i valori
                 cleaning("personal_info");
                 cleaning("km");
