@@ -14,30 +14,41 @@ function priceCalc(km, range) {
   } else if (range == "over65") {
     discount = (basePrice * discountPercentageO65) / 100;
   }
+
   //calcolo il prezzo finale
   let finalPrice = basePrice - discount;
   //restituisco indietro il valore del prezzo finale
   return finalPrice.toFixed(2);
 }
-function generateHtml(info, price, age, start, end) {
+
+function generateHtml(info, price, age, start, end, code) {
   ticket.innerHTML = "";
-  ticket.innerHTML += `<div class="card mb-3 mt-5 max-w-540px margin-0-auto" >
-        <div class="row g-0">
-            <div class="col-md-4">
-            <img src="./img/image.png" class="img-fluid rounded-start" alt="...">
+  ticket.innerHTML += `
+        <div class="card mb-3 mt-5 w-60 margin-0-auto" >
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="./img/image.png" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><b>Nome Possessore</b>: ${info}</h5>
+                    <p class="card-text"><small class="text-body-secondary"><b>Eta del possessore</b>: ${age}</small></p>
+                    <p class="card-text"><b>Prezzo biglietto</b>: ${price}&euro;</p>
+                    <p><b>Partenza</b>: ${start} <b>Destinazione</b>: ${end}</p>
+                    <p><b>Codice Biglietto</b>: ${code}</p>
+                </div>
+                </div>
             </div>
-            <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title"><b>Nome Possessore</b>: ${info}</h5>
-                <p class="card-text"><small class="text-body-secondary"><b>Eta del possessore</b>: ${age}</small></p>
-                <p class="card-text"><b>Prezzo biglietto</b>: ${price}&euro;</p>
-                <p><b>Partenza</b>: ${start} <b>Destinazione</b>: ${end}</p>
-            </div>
-            </div>
-        </div>
-      </div>`;
+        </div>`;
 }
 
+//function che mi crea un codice "univoco" per il biglietto
+function creationCode(i, p, a, s, d){
+    const nameSurname= i.split(" ");
+    const string = i[0]+nameSurname[1].charAt(0)+p[0]+a+s[0]+d[0];
+    return string;
+}
+//function che constrolla se il valore è una stringa
 function isString(s) {
   if (typeof s !== "string") {
     return false;
@@ -45,9 +56,12 @@ function isString(s) {
     return true;
   }
 }
+//function che pulisce il valore del form
 function cleaning(value) {
   document.getElementById(value).value = "";
 }
+
+//function che pulisce il valore del form
 function msgError(str) {
   ticket.innerHTML = "";
   ticket.innerHTML += str;
@@ -57,35 +71,49 @@ const discountPercentageU18 = 20;
 const discountPercentageO65 = 40;
 const prezzoPerKm = 0.21;
 
-//salvo dentro ad una variabile l'elemento form
+//salvo dentro ad una variabile l'elemento form e l'elemento button annulla
 const form = document.getElementById("form");
-console.log(form);
 const cleanButton = document.getElementById("cleanButton");
+
 //all'invio del form, facciamo partire la funzione
 form.addEventListener("submit", function (event) {
   //blocco il normale funzionamento dell'invio del form
   event.preventDefault();
-  //memorizzo nome e cognoem
+
+  //memorizzo nome e cognome
   let info = document.getElementById("personal_info").value;
+
   //se è una stringa andiamo avanti con i controlli
   if (isString(info)) {
-    //vado a memorizzare dentro due variabilki rispettivamente km da percorrere e eta passeggero e la selezione della select
+
+    //vado a memorizzare dentro una variabile km da percorrere
     let kmToTravel = parseInt(document.getElementById("km").value);
+    //se i km inseriti è un numero e è maggiore di zero
     if (!isNaN(kmToTravel) && kmToTravel > 0) {
+      //vado a memorizzare dentro una variabile eta passeggero e la selezione della select
       let age = parseInt(document.getElementById("age").value);
+      //se eta inserita è un numero e è compreso tra 0 e 110
       if (!isNaN(age) && age > 0 && age < 110) {
+        //vado a memorizzare dentro una variabile la selezione della select
         let select = document.getElementById("ageSel").value;
-        console.log(select);
+
+        //vado a memorizzare dentro una variabile la destinazione e la partenza
         let destination = document.getElementById("end").value;
         let start = document.getElementById("start").value;
+
         //memorizzo il prezzo che mi ritorna dalla funzione in una variabile
         const price = priceCalc(kmToTravel, select);
+
+        //passo i valori che preso ad una funzione per creare un codice univoco
+        const code = creationCode(info, price, age, start, destination)
+
         //genero tramite una funzione la card
-        generateHtml(info, price, age, start, destination);
+        generateHtml(info, price, age, start, destination, code);
         //azzero tutti i valori
         cleaning("personal_info");
         cleaning("km");
         cleaning("age");
+
       } else {
         msgError("l'eta inserita non è un numero o non è un eta fattibile");
       }
