@@ -41,13 +41,45 @@ function generateHtml(info, price, age, start, end, code) {
             </div>
         </div>`;
 }
-
+//creationCode(info, price, age, start, destination)
 //function che mi crea un codice "univoco" per il biglietto
-function creationCode(i, p, a, s, d){
+function creationCode(i, p, a, s, d, km){
+    //divido la stringa con nome e cognome in un array composto da due stringhe
     const nameSurname= i.split(" ");
-    const string = i[0]+nameSurname[1].charAt(0)+p[0]+a+s[0]+d[0];
+    let app; //creo variabile di appoggio dove inserire il valore da mettere nel codice
+    //se l'utente ha inserito solo un nome
+    if(nameSurname.length < 2){
+      app = nameSurname[0].charAt(0); //prendo il primo valore del nome
+    }else{
+      app = nameSurname[1].charAt(0); //prendo il primo valore del secondo 
+    }
+    //genero tramite una funzione un numero random che va dal minimo al massimo tra il valore di eta e di km da percorrere
+    const randNum =  randomIntBetween(km, a);
+    //concateno tutti i primi valori e il numero random
+    const string = i[0].toUpperCase()+app.toUpperCase()+p[0]+a+s[0]+d[0]+randNum;
+    //restituisco il codice generato
     return string;
 }
+
+function randomIntBetween(numOne, numTwo){
+    const flagUno = isNaN(numOne);
+    const flagDue = isNaN(numTwo);
+    let max, min;
+    if(!flagUno && !flagDue){
+         if(numOne>=numTwo){
+            max= numOne;
+            min = numTwo;
+         }else{
+            max = numTwo;
+            min = numOne;
+         }
+         const random = Math.floor(Math.random()*(max-min+1) +min);
+         return random
+    }else{
+         return("non un numero")
+    }
+}
+
 //function che constrolla se il valore è una stringa
 function isString(s) {
   if (typeof s !== "string") {
@@ -66,6 +98,11 @@ function msgError(str) {
   ticket.innerHTML = "";
   ticket.innerHTML += str;
 }
+
+//---------------------------------------------------------
+//------------MAIN CODE------------------------------------
+//---------------------------------------------------------
+
 //dichiare costante percentuale sconto u-18, sconto o-65 e con il prezzo per km
 const discountPercentageU18 = 20;
 const discountPercentageO65 = 40;
@@ -88,12 +125,15 @@ form.addEventListener("submit", function (event) {
 
     //vado a memorizzare dentro una variabile km da percorrere
     let kmToTravel = parseInt(document.getElementById("km").value);
+
     //se i km inseriti è un numero e è maggiore di zero
     if (!isNaN(kmToTravel) && kmToTravel > 0) {
       //vado a memorizzare dentro una variabile eta passeggero e la selezione della select
       let age = parseInt(document.getElementById("age").value);
+
       //se eta inserita è un numero e è compreso tra 0 e 110
       if (!isNaN(age) && age > 0 && age < 110) {
+
         //vado a memorizzare dentro una variabile la selezione della select
         let select = document.getElementById("ageSel").value;
 
@@ -105,14 +145,17 @@ form.addEventListener("submit", function (event) {
         const price = priceCalc(kmToTravel, select);
 
         //passo i valori che preso ad una funzione per creare un codice univoco
-        const code = creationCode(info, price, age, start, destination)
+        const code = creationCode(info, price, age, start, destination, kmToTravel)
 
         //genero tramite una funzione la card
         generateHtml(info, price, age, start, destination, code);
+
         //azzero tutti i valori
         cleaning("personal_info");
         cleaning("km");
         cleaning("age");
+        cleaning("start");
+        cleaning("end");
 
       } else {
         msgError("l'eta inserita non è un numero o non è un eta fattibile");
@@ -127,7 +170,10 @@ form.addEventListener("submit", function (event) {
 });
 
 cleanButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  ticket.innerHTML = "";
-  console.log("aaaaaaaaaaaaaaaaaaaaaa");
+    event.preventDefault();
+    cleaning("personal_info");
+    cleaning("km");
+    cleaning("age");
+    cleaning("start");
+    cleaning("end");
 });
